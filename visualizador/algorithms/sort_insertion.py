@@ -13,9 +13,18 @@ def init(vals):
     j = None
 
 def step():
-    # TODO:
-    # - Si i >= n: devolver {"done": True}.
-    # - Si j es None: empezar desplazamiento para el items[i] (p.ej., j = i) y devolver un highlight sin swap.
-    # - Mientras j > 0 y items[j-1] > items[j]: hacer UN swap adyacente (j-1, j) y devolverlo con swap=True.
-    # - Si ya no hay que desplazar: avanzar i y setear j=None.
-    return {"done": True}
+    global items, n, i, j
+    if i >= n:
+        return {"done": True}
+    if j is None:
+        j = i
+        return {"a": j-1, "b": j, "swap": False, "done": False}
+    while j > 0 and items[j-1] > items[j]:
+        items[j-1], items[j] = items[j], items[j-1]
+        a = j - 1
+        b = j
+        j -= 1
+        return {"a": a, "b": b, "swap": True, "done": False}
+    i += 1
+    j = None
+    return step()
